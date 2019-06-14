@@ -12,8 +12,10 @@ public class Main {
 		
 		//Initialize the JFrame, set to maximized
         JFrame frame = new JFrame("Phish Phracker");
-        	
-       
+        
+        /* 
+         * https://www.javaworld.com/article/2077467/java-tip-104--make-a-splash-with-swing.html
+         */
         JLabel l = new JLabel(new ImageIcon("res/phish.jpg"));
         frame.getContentPane().add(l, BorderLayout.CENTER);
         frame.pack();
@@ -30,5 +32,6 @@ public class Main {
             });
         frame.setVisible(true);
         frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        
     }
 }
