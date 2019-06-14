@@ -1,9 +1,10 @@
 package main;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.Color;
+import java.awt.GridBagLayout;
 import java.awt.event.*;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
 
@@ -12,26 +13,26 @@ public class Main {
 		
 		//Initialize the JFrame, set to maximized
         JFrame frame = new JFrame("Phish Phracker");
-        
-        /* 
-         * https://www.javaworld.com/article/2077467/java-tip-104--make-a-splash-with-swing.html
-         */
-        JLabel l = new JLabel(new ImageIcon("res/phish.jpg"));
-        frame.getContentPane().add(l, BorderLayout.CENTER);
-        frame.pack();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension labelSize = l.getPreferredSize();
-        frame.setLocation(screenSize.width/2 - (labelSize.width/2), screenSize.height/2 - (labelSize.height/2));
-        frame.addMouseListener(new MouseAdapter()
-            {
-                public void mousePressed(MouseEvent e)
-                {
-                    frame.setVisible(false);
-                    frame.dispose();
-                }
-            });
         frame.setVisible(true);
+        
+        JPanel splash = new JPanel();
+        splash.setBackground(Color.BLACK);
+        splash.setLayout(new GridBagLayout());
+        splash.setVisible(true);
+        
+        JLabel logo = new JLabel(new ImageIcon("res/phish.jpg"));
+        splash.add(logo);
+        
+        frame.getContentPane().add(splash, BorderLayout.CENTER);
+        
         frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         
+        try{
+        	Thread.sleep(2000);
+        	logo.setVisible(false);
+        	splash.setBackground(Color.WHITE);
+        }catch(InterruptedException e) {
+        	System.out.println(e);
+        }   
     }
 }
