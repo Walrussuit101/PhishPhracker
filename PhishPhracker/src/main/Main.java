@@ -9,6 +9,8 @@ import java.net.URL;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import screenBuilders.MainBuilder;
+
 
 public class Main {
 	
@@ -21,7 +23,6 @@ public class Main {
         JFrame frame = new JFrame("Phish Phracker");
         frame.setBackground(Color.BLACK);
         frame.setSize(700,700);
-        frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         //Initialize content panel
@@ -45,7 +46,6 @@ public class Main {
         title.setForeground(Color.WHITE);
         title.setFont(new Font("MS PGothic", Font.BOLD, 60));
         title.setBorder(new EmptyBorder(50,0,0,0));
-        title.setBackground(Color.CYAN);
         c.anchor = GridBagConstraints.PAGE_END;
         c.gridx = 1;
         c.gridy = 2;
@@ -53,6 +53,8 @@ public class Main {
         
         //add splash screen panel to frame, set frame to maximized
         frame.add(content);
+        frame.pack();
+        frame.setVisible(true);
         frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         
         //wait three seconds before removing logo
@@ -66,6 +68,9 @@ public class Main {
         }catch(InterruptedException e) {
         	System.out.println(e);
         }   
+        
+        MainBuilder searchScreen = new MainBuilder(frame, content);
+        searchScreen.build();
         
     }
 }
