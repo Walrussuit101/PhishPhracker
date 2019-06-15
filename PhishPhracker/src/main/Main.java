@@ -1,14 +1,14 @@
 package main;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.net.URL;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 
 public class Main {
 	
@@ -17,11 +17,11 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		//Initialize the JFrame, set to maximized, end program on close
+		//Initialize the JFrame, end program on close
         JFrame frame = new JFrame("Phish Phracker");
         frame.setBackground(Color.BLACK);
+        frame.setSize(700,700);
         frame.setVisible(true);
-        frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         //Initialize content panel
@@ -30,8 +30,10 @@ public class Main {
         content.setLayout(new GridBagLayout());
         content.setVisible(true);
         
-        //Initialize logo, add GridBag constraints
-        JLabel logo = new JLabel(new ImageIcon("res/phish.jpg"));
+        //Initialize logo, add GridBag constraints     
+        URL url = Main.class.getResource("/phish.jpg");
+        JLabel logo = new JLabel(new ImageIcon(url));
+
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.CENTER;
         c.gridx = 1;
@@ -49,8 +51,9 @@ public class Main {
         c.gridy = 2;
         content.add(title, c);
         
-        //add splash screen panel to frame
+        //add splash screen panel to frame, set frame to maximized
         frame.add(content);
+        frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         
         //wait three seconds before removing logo
         try{
