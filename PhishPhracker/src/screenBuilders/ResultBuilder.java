@@ -1,6 +1,7 @@
 package screenBuilders;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -11,10 +12,8 @@ public class ResultBuilder {
 	private JPanel content;
 	private JFrame frame;
 	
-	private String PHISHNETURL = "http://phish.net/setlists/phish/";
-	private String year;
-	private String month;
-	private String day;
+	private String PHISHNETURL = "http://phish.net/setlists/";
+	private ArrayList<String> selections;
 	
 	private Document html;
 	
@@ -27,22 +26,38 @@ public class ResultBuilder {
 	 * @param month String selected month
 	 * @param day String selected day
 	 */
-	public ResultBuilder(JFrame frame, JPanel content, String year, String month, String day) {
+	public ResultBuilder(JFrame frame, JPanel content, ArrayList<String> selections) {
 		this.frame = frame;
 		this.content = content;
 		
-		this.year = year;
-		this.month = month;
-		this.day = day;
+		this.selections = selections;
 		
-		PHISHNETURL += "year=" + this.year + "&month=" + this.month + "&day=" + this.day;
+		//will always have a year
+		PHISHNETURL += "?year=" + this.selections.get(0);
+		
+		//Build rest of url if given a month/day selection
+		for(int i = 1; i < this.selections.size(); i++) {
+			if(i == 1 && !this.selections.get(i).equals("MONTH")) {
+				PHISHNETURL += "&month=" + selections.get(i);
+			}else if(i == 2 && !this.selections.get(i).equals("DAY")) {
+				PHISHNETURL += "&day=" + selections.get(i);
+			}
+		}
+		
 		html = getHTML(PHISHNETURL);
 	}
 	
 	/**Builds resultScreen in content JPanel
 	 */
 	public void build() {
-		System.out.println(html.title());
+		
+		//If setlist not found return to search screen
+		if(!html.title().contains("Setlist")) {
+			JOptionPane.showMessageDialog(null, "No setlists found :(");
+			
+			MainBuilder searchScreen = new MainBuilder(frame, content);
+			searchScreen.build();
+		}
 	}
 	
 	/**Simply gets html from given url

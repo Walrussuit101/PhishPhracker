@@ -31,26 +31,30 @@ public class MainBuilder implements ActionListener{
 		this.frame = frame;
 		this.content = content;
 		
+		years.add("YEAR");
+		months.add("MONTH");
+		days.add("DAY");
+		
 		years.add("1982");
 		months.add("1");
 		days.add("1");
 		
 		//populate years options
-		for(int i = 0; i < 37; i++) {
+		for(int i = 1; i < 38; i++) {
 			int year = Integer.parseInt(years.get(i));
 			year++;
 			years.add(Integer.toString(year));
 		}
 		
 		//populate months options
-		for (int i = 0; i < 11; i++) {
+		for (int i = 1; i < 12; i++) {
 			int month = Integer.parseInt(months.get(i));
 			month++;
 			months.add(Integer.toString(month));
 		}
 		
 		//populate days options
-		for (int i = 0; i < 30; i++) {
+		for (int i = 1; i < 31; i++) {
 			int day = Integer.parseInt(days.get(i));
 			day++;
 			days.add(Integer.toString(day));
@@ -85,6 +89,7 @@ public class MainBuilder implements ActionListener{
 		content.add(daySelect);
 		content.add(submit);
 		content.revalidate();
+		frame.repaint();
 	}
 	
 	@Override
@@ -93,14 +98,27 @@ public class MainBuilder implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if("submit".equals(e.getActionCommand())) {
-			content.removeAll();
-			content.revalidate();
-			frame.repaint();
 			
-			ResultBuilder resultScreen = new ResultBuilder(frame, content,
-				(String) yearSelect.getSelectedItem(), (String) monthSelect.getSelectedItem(),
-				(String) daySelect.getSelectedItem());
-			resultScreen.build();
+			//build selections array so ResultBuilder can iterate through them
+			ArrayList<String> selections = new ArrayList<String>();
+			selections.add((String) yearSelect.getSelectedItem());
+			selections.add((String) monthSelect.getSelectedItem());
+			selections.add((String) daySelect.getSelectedItem());
+			
+			//need atleast a year given
+			if(selections.get(0).equals("YEAR")) {
+				JOptionPane.showMessageDialog(null, "Please select a year");
+			
+			//if all ok remove all components and build results screen
+			}else {
+				content.removeAll();
+				content.revalidate();
+				frame.repaint();
+				
+				ResultBuilder resultScreen = new ResultBuilder(frame, content, selections);
+				
+				resultScreen.build();
+			}
 		}
 	}
 }
