@@ -100,6 +100,7 @@ public class MainBuilder implements ActionListener{
 			ResultBuilder resultScreen = new ResultBuilder(frame, content,
 				(String) yearSelect.getSelectedItem(), (String) monthSelect.getSelectedItem(),
 				(String) daySelect.getSelectedItem());
+			resultScreen.build();
 		}
 	}
 }

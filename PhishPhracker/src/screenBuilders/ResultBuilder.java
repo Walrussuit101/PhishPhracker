@@ -1,6 +1,11 @@
 package screenBuilders;
 
+import java.io.IOException;
+
 import javax.swing.*;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 public class ResultBuilder {
 	private JPanel content;
@@ -10,6 +15,8 @@ public class ResultBuilder {
 	private String year;
 	private String month;
 	private String day;
+	
+	private Document html;
 	
 	/**Builds resultBuilder object
 	 * preps URL for scraping
@@ -29,6 +36,30 @@ public class ResultBuilder {
 		this.day = day;
 		
 		PHISHNETURL += "year=" + this.year + "&month=" + this.month + "&day=" + this.day;
-		System.out.println(PHISHNETURL);
+		html = getHTML(PHISHNETURL);
+	}
+	
+	/**Builds resultScreen in content JPanel
+	 */
+	public void build() {
+		System.out.println(html.title());
+	}
+	
+	/**Simply gets html from given url
+	 * 
+	 * @param url webpage to retrieve
+	 * @return html from given url
+	 */
+	public Document getHTML(String url) {
+		
+		Document html = null;
+		
+		try {
+			html = Jsoup.connect(url).get();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+
+		return html;
 	}
 }
