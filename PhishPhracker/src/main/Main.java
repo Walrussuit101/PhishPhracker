@@ -71,6 +71,5 @@ public class Main {
         
         MainBuilder searchScreen = new MainBuilder(frame, content);
         searchScreen.build();
-        
     }
 }

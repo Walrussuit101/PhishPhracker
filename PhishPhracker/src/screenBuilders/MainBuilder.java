@@ -1,21 +1,26 @@
 package screenBuilders;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class MainBuilder {
-
-	JPanel content;
-	JFrame frame;
-	ArrayList<String> years = new ArrayList<String>();
-	ArrayList<String> months = new ArrayList<String>();
-	ArrayList<String> days = new ArrayList<String>();
+public class MainBuilder implements ActionListener{
+	
+	private JPanel content;
+	private JFrame frame;
+	
+	private ArrayList<String> years = new ArrayList<String>();
+	private ArrayList<String> months = new ArrayList<String>();
+	private ArrayList<String> days = new ArrayList<String>();
+	
+	private JComboBox<String> yearSelect = null;
+	private JComboBox<String> monthSelect = null;
+	private JComboBox<String> daySelect = null;
+	private JButton submit = new JButton("Search");
 	
 	/**Builds main setlist search page,
 	 * 
@@ -50,27 +55,51 @@ public class MainBuilder {
 			day++;
 			days.add(Integer.toString(day));
 		}	
+		
+		yearSelect = new JComboBox<String>(years.toArray(new String[years.size()]));
+		monthSelect = new JComboBox<String>(months.toArray(new String[months.size()])); 
+		daySelect = new JComboBox<String>(days.toArray(new String[days.size()]));
 	}
 	
+	/**Builds search screen with JComboBoxes/JButtons
+	 * User can search setlist by date
+	 */
 	public void build(){
 		
 		//build JComboBoxes for year/month/day selection
-		JComboBox<String> yearSelect = new JComboBox<String>(years.toArray(new String[years.size()]));
 		yearSelect.setBackground(Color.white);
 		yearSelect.setBorder(new EmptyBorder(0,0,0,10));
 		
-		JComboBox<String> monthSelect = new JComboBox<String>(months.toArray(new String[months.size()]));
 		monthSelect.setBackground(Color.white);
 		monthSelect.setBorder(new EmptyBorder(0,10,0,10));
 	
-		JComboBox<String> daySelect = new JComboBox<String>(days.toArray(new String[days.size()]));
 		daySelect.setBackground(Color.white);
 		daySelect.setBorder(new EmptyBorder(0,10,0,10));
+				
+		submit.setActionCommand("submit");
+		submit.addActionListener(this);
 		
 		//add JComboBoxes to content JPanel
 		content.add(yearSelect);
 		content.add(monthSelect);
 		content.add(daySelect);
+		content.add(submit);
 		content.revalidate();
+	}
+	
+	@Override
+	/**If action is "submit" clear content JPanel, then call ResultBuilder
+	 * pass selected year/month/day
+	 */
+	public void actionPerformed(ActionEvent e) {
+		if("submit".equals(e.getActionCommand())) {
+			content.removeAll();
+			content.revalidate();
+			frame.repaint();
+			
+			ResultBuilder resultScreen = new ResultBuilder(frame, content,
+				(String) yearSelect.getSelectedItem(), (String) monthSelect.getSelectedItem(),
+				(String) daySelect.getSelectedItem());
+		}
 	}
 }
