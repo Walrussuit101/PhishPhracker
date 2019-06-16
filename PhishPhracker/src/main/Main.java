@@ -22,8 +22,8 @@ public class Main {
 		//Initialize the JFrame, end program on close
         JFrame frame = new JFrame("Phish Phracker");
         frame.setBackground(Color.BLACK);
-        frame.setSize(700,700);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(900,700);
         
         //Initialize content panel
         JPanel content = new JPanel();
@@ -53,9 +53,8 @@ public class Main {
         
         //add splash screen panel to frame, set frame to maximized
         frame.add(content);
-        frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         
         //wait three seconds before removing logo
         try{

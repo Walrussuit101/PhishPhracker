@@ -107,7 +107,7 @@ public class MainBuilder implements ActionListener{
 			
 			//need atleast a year given
 			if(selections.get(0).equals("YEAR")) {
-				JOptionPane.showMessageDialog(null, "Please select a year");
+				JOptionPane.showMessageDialog(content, "Please select a year");
 			
 			//if all ok remove all components and build results screen
 			}else {
