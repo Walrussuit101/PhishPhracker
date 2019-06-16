@@ -1,1 +1,5 @@
 # PhishPhracker
+
+## Dependencies
+
+jsoup
