@@ -60,14 +60,14 @@ public class ResultBuilder {
 	 */
 	public void build() {
 		
-		//If setlist not found return to search screen
+		//If setlist not found, return to search screen
 		if(!html.title().contains("Setlist")) {
 			JOptionPane.showMessageDialog(null, "No setlists found :(");
 			
 			MainBuilder searchScreen = new MainBuilder(frame, content);
 			searchScreen.build();
 			
-		//setlist found, build jlabels for setlist/notes/etc.
+		//if setlist found, build jlabels for setlist/notes/etc.
 		}else {
 			
 			ArrayList<Element> setlists = html.getElementsByClass("setlist");
@@ -79,8 +79,10 @@ public class ResultBuilder {
 			
 			Dimension sizeDate = new Dimension(content.getWidth()-20, 50);
 			Dimension sizeBody = new Dimension(content.getWidth()-20, 150);
-			Dimension sizeFooter = new Dimension(content.getWidth()-20, 20);
+			Dimension sizeFooter = new Dimension(content.getWidth()-20, 40);
 			
+			//start adding setlists into content JPanel
+			//Have a row for set1/2/encore/footer, handled by HTML
 			for(Element setlist : setlists) {
 				
 				JLabel date = new JLabel("<html><p style='font-size: 24;'>" + setlist.getElementsByClass("setlist-date-long").get(0).text() + "</p><br></html>");				
@@ -110,12 +112,6 @@ public class ResultBuilder {
 			frame.getContentPane().add(setlistsComponent, BorderLayout.CENTER);
 			content.revalidate();
 			frame.repaint();
-			
-//			ArrayList<Component> components = new ArrayList<Component>(Arrays.asList(content.getComponents()));
-//			for(Component component : components) {
-//				System.out.println(component.getName());
-//				System.out.println(component.getSize());
-//			}
 		}
 	}
 	
