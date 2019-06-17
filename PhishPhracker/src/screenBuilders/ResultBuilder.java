@@ -1,6 +1,7 @@
 package screenBuilders;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.io.IOException;
@@ -48,6 +49,7 @@ public class ResultBuilder {
 			}
 		}
 		
+		System.out.println(PHISHNETURL);
 		html = getHTML(PHISHNETURL);
 	}
 	
@@ -72,9 +74,10 @@ public class ResultBuilder {
 			c.anchor = GridBagConstraints.WEST;
 			c.fill = GridBagConstraints.VERTICAL;
 			for(Element setlist : setlists) {
-				JLabel set = new JLabel("<html>" + setlist.text() + "<br></html>");
+				JLabel set = new JLabel("<html><p style='text-size: 14;'>" + setlist.text() + "</p><br></html>");
 			
-				Dimension size = new Dimension(content.getWidth()-20, 150);
+				Dimension size = new Dimension(content.getWidth()-20, 200);
+				set.setBackground(Color.GREEN);
 				set.setPreferredSize(size);
 				set.setVisible(true);
 				content.add(set, c);
