@@ -30,6 +30,7 @@ public class Main {
         content.setBackground(Color.BLACK);
         content.setLayout(new GridBagLayout());
         content.setVisible(true);
+        content.setMaximumSize(frame.getSize());
         
         //Initialize logo, add GridBag constraints     
         URL url = Main.class.getResource("/phish.jpg");

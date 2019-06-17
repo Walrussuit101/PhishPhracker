@@ -1,5 +1,8 @@
 package screenBuilders;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -7,6 +10,7 @@ import javax.swing.*;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 public class ResultBuilder {
 	private JPanel content;
@@ -57,6 +61,30 @@ public class ResultBuilder {
 			
 			MainBuilder searchScreen = new MainBuilder(frame, content);
 			searchScreen.build();
+			
+		//setlist found, build jlabels for setlist/notes/etc.
+		}else {
+			
+			ArrayList<Element> setlists = html.getElementsByClass("setlist");
+			
+			GridBagConstraints c = new GridBagConstraints();
+			c.gridwidth = GridBagConstraints.REMAINDER;
+			c.anchor = GridBagConstraints.WEST;
+			c.fill = GridBagConstraints.VERTICAL;
+			for(Element setlist : setlists) {
+				JLabel set = new JLabel("<html>" + setlist.text() + "<br></html>");
+			
+				Dimension size = new Dimension(content.getWidth()-20, 150);
+				set.setPreferredSize(size);
+				set.setVisible(true);
+				content.add(set, c);
+			}
+			
+			JScrollPane setlistsComponent = new JScrollPane(content);
+			setlistsComponent.getVerticalScrollBar().setUnitIncrement(10);
+			frame.getContentPane().add(setlistsComponent, BorderLayout.CENTER);
+			content.revalidate();
+			frame.repaint();
 		}
 	}
 	
