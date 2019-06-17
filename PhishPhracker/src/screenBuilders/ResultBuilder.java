@@ -2,12 +2,15 @@ package screenBuilders;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -73,14 +76,33 @@ public class ResultBuilder {
 			c.gridwidth = GridBagConstraints.REMAINDER;
 			c.anchor = GridBagConstraints.WEST;
 			c.fill = GridBagConstraints.VERTICAL;
-			for(Element setlist : setlists) {
-				JLabel set = new JLabel("<html><p style='text-size: 14;'>" + setlist.text() + "</p><br></html>");
 			
-				Dimension size = new Dimension(content.getWidth()-20, 200);
-				set.setBackground(Color.GREEN);
-				set.setPreferredSize(size);
-				set.setVisible(true);
-				content.add(set, c);
+			Dimension sizeDate = new Dimension(content.getWidth()-20, 50);
+			Dimension sizeBody = new Dimension(content.getWidth()-20, 150);
+			Dimension sizeFooter = new Dimension(content.getWidth()-20, 20);
+			
+			for(Element setlist : setlists) {
+				
+				JLabel date = new JLabel("<html><p style='font-size: 24;'>" + setlist.getElementsByClass("setlist-date-long").get(0).text() + "</p><br></html>");				
+				date.setPreferredSize(sizeDate);
+				date.setVisible(true);
+				content.add(date, c);
+				
+				JLabel body = new JLabel("<html><p style='font-size: 12;'>");
+				ArrayList<Element> pTags = setlist.getElementsByClass("setlist-body").get(0).getElementsByTag("p");
+				for(Element pTag : pTags) {
+					body.setText(body.getText() + pTag.text() + "<br>");
+				}
+				body.setText(body.getText() + "</p></html>");
+				body.setPreferredSize(sizeBody);
+				body.setVisible(true);
+				content.add(body, c);
+
+				
+				JLabel footer = new JLabel("<html><p style='font-size: 10;'>" + setlist.getElementsByClass("setlist-footer").get(0).text() + "</p><br></html>");				
+				footer.setPreferredSize(sizeFooter);
+				footer.setVisible(true);
+				content.add(footer, c);
 			}
 			
 			JScrollPane setlistsComponent = new JScrollPane(content);
@@ -88,6 +110,12 @@ public class ResultBuilder {
 			frame.getContentPane().add(setlistsComponent, BorderLayout.CENTER);
 			content.revalidate();
 			frame.repaint();
+			
+//			ArrayList<Component> components = new ArrayList<Component>(Arrays.asList(content.getComponents()));
+//			for(Component component : components) {
+//				System.out.println(component.getName());
+//				System.out.println(component.getSize());
+//			}
 		}
 	}
 	
