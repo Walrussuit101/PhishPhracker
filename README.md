@@ -1,4 +1,4 @@
-# PhishPhracker
+# 🐟PhishPhracker🐟
 
 ## Functionality
 Setist Search:
