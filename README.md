@@ -4,5 +4,5 @@
 jsoup-1.12.1
 
 ## Functionality
-Setist Search:
+Setlist Search:
 Allows user to search for a setlist based on year/month/day
