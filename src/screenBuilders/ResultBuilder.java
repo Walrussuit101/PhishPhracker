@@ -1,24 +1,24 @@
 package screenBuilders;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-public class ResultBuilder {
+public class ResultBuilder implements ActionListener{
 	private JPanel content;
 	private JFrame frame;
+	private JScrollPane setlistsComponent;
+
 	
 	private String PHISHNETURL = "http://phish.net/setlists/";
 	private ArrayList<String> selections;
@@ -52,7 +52,7 @@ public class ResultBuilder {
 			}
 		}
 		
-		System.out.println(PHISHNETURL);
+		System.out.println("Search: " + PHISHNETURL);
 		html = getHTML(PHISHNETURL);
 	}
 	
@@ -69,6 +69,11 @@ public class ResultBuilder {
 			
 		//if setlist found, build jlabels for setlist/notes/etc.
 		}else {
+			
+			JButton back = new JButton("Back");
+			back.setActionCommand("back");
+			back.addActionListener(this);
+			content.add(back);
 			
 			ArrayList<Element> setlists = html.getElementsByClass("setlist");
 			
@@ -107,12 +112,15 @@ public class ResultBuilder {
 				content.add(footer, c);
 			}
 			
-			JScrollPane setlistsComponent = new JScrollPane(content);
+			setlistsComponent = new JScrollPane(content);
 			setlistsComponent.getVerticalScrollBar().setUnitIncrement(10);
 			frame.getContentPane().add(setlistsComponent, BorderLayout.CENTER);
+			frame.getContentPane().revalidate();
 			content.revalidate();
 			frame.repaint();
 		}
+		
+		System.out.println("Succesful Build RESULTBUILDER");
 	}
 	
 	/**Simply gets html from given url
@@ -131,5 +139,27 @@ public class ResultBuilder {
 		}
 
 		return html;
+	}
+	
+	@Override
+	/**If action is "submit" clear content JPanel, then call ResultBuilder
+	 * pass selected year/month/day
+	 */
+	public void actionPerformed(ActionEvent e) {
+		if("back".equals(e.getActionCommand())) {
+			
+			System.out.println("Go Back");
+			
+			content.removeAll();
+			content.revalidate();
+			frame.getContentPane().remove(setlistsComponent);
+			frame.getContentPane().revalidate();
+			frame.getContentPane().repaint();
+			frame.revalidate();
+			frame.repaint();
+			
+			MainBuilder searchScreen2 = new MainBuilder(frame, content);
+			searchScreen2.build();
+		}
 	}
 }

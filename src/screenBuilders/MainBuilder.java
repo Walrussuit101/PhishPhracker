@@ -90,6 +90,7 @@ public class MainBuilder implements ActionListener{
 		content.add(submit);
 		content.revalidate();
 		frame.repaint();
+		System.out.println("Succesful Build MAINBUILDER");
 	}
 	
 	@Override
@@ -114,7 +115,6 @@ public class MainBuilder implements ActionListener{
 				content.removeAll();
 				content.revalidate();
 				frame.repaint();
-				
 				ResultBuilder resultScreen = new ResultBuilder(frame, content, selections);
 				
 				resultScreen.build();
