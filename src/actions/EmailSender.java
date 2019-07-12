@@ -45,13 +45,10 @@ public class EmailSender {
 			MimeMessage messageShow = new MimeMessage(session);
 			messageShow.setFrom(new InternetAddress(from));
 			messageShow.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-			
 			messageShow.setSubject(subject);
 			messageShow.setText(setlist);
-			System.out.println("will send");
 			Transport.send(messageShow);
 			
-			System.out.println("sent");
 			return 0;
 		}catch(MessagingException e){
 			System.out.println(e);

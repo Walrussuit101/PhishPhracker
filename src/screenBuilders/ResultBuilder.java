@@ -90,11 +90,14 @@ public class ResultBuilder implements ActionListener{
 			//Have a row for set1/2/encore/footer, handled by HTML
 			for(Element setlist : setlists) {
 				
+				//date label
 				JLabel date = new JLabel("<html><p style='font-size: 24;'>" + setlist.getElementsByClass("setlist-date-long").get(0).text() + "</p><br></html>");				
 				date.setPreferredSize(sizeDate);
 				date.setVisible(true);
 				content.add(date, c);
 				
+				//setlist label
+				//makes a new line for each <p> tag, which holds seperate sets
 				JLabel body = new JLabel("<html><p style='font-size: 12;'>");
 				ArrayList<Element> pTags = setlist.getElementsByClass("setlist-body").get(0).getElementsByTag("p");
 				for(Element pTag : pTags) {
@@ -105,7 +108,7 @@ public class ResultBuilder implements ActionListener{
 				body.setVisible(true);
 				content.add(body, c);
 
-				
+				//footer label
 				JLabel footer = new JLabel("<html><p style='font-size: 10;'>" + setlist.getElementsByClass("setlist-footer").get(0).text() + "</p><br></html>");				
 				footer.setPreferredSize(sizeFooter);
 				footer.setVisible(true);
@@ -142,8 +145,7 @@ public class ResultBuilder implements ActionListener{
 	}
 	
 	@Override
-	/**If action is "submit" clear content JPanel, then call ResultBuilder
-	 * pass selected year/month/day
+	/**If action is "back" clear content, and rebuild main/search screen
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if("back".equals(e.getActionCommand())) {
