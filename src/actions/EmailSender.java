@@ -56,10 +56,6 @@ public class EmailSender {
 		}catch(MessagingException e){
 			System.out.println(e);
 			return 1;
-		}
-		
-	}
-	
-	
-	
+		}	
+	}	
 }
