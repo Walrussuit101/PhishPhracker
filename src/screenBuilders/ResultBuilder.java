@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.mail.MessagingException;
 import javax.swing.*;
 
 import org.jsoup.Jsoup;
@@ -192,7 +193,12 @@ public class ResultBuilder implements ActionListener{
 				if(date.equals(c.getName())) {
 					EmailSender emailSender = new EmailSender("tjefferson@ycp.edu");
 					JLabel body = (JLabel) c;
-					emailSender.sendShowEmail(date, body.getText());
+					try {
+						emailSender.sendShowEmail(date, body.getText());
+						JOptionPane.showMessageDialog(content, "Email Sent!");
+					} catch (MessagingException e1) {
+						JOptionPane.showMessageDialog(content, "Email Failed To Send! :" + e1.getMessage());
+					}
 				}
 			}	
 		}

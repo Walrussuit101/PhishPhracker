@@ -4,7 +4,7 @@ import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-public class EmailSender {
+public class EmailSender{
 	private String to;
 	private String from;
 	private String passwordFrom;
@@ -30,7 +30,7 @@ public class EmailSender {
 	 * @param Setlist Actual setlist, will go in email's message
 	 * @return Will return 0 if sent, 1 if error
 	 */
-	public int sendShowEmail(String showDate, String setlist) {
+	public int sendShowEmail(String showDate, String setlist) throws MessagingException{
 		
 		String subject = showDate;
 		
@@ -51,8 +51,7 @@ public class EmailSender {
 			
 			return 0;
 		}catch(MessagingException e){
-			System.out.println(e);
-			return 1;
+			throw e;
 		}	
 	}	
 }
