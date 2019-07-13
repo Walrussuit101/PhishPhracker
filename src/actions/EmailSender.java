@@ -46,7 +46,7 @@ public class EmailSender {
 			messageShow.setFrom(new InternetAddress(from));
 			messageShow.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			messageShow.setSubject(subject);
-			messageShow.setContent(setlist, "text/html");
+			messageShow.setContent(setlist + "<BR><BR><BR><BR>THIS EMAIL WAS SENT BY PHISHPHRACKER", "text/html");
 			Transport.send(messageShow);
 			
 			return 0;

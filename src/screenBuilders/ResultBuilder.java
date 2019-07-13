@@ -93,6 +93,7 @@ public class ResultBuilder implements ActionListener{
 			//Have a row for set1/2/encore/footer, handled by HTML
 			for(Element setlist : setlists) {
 				
+				//get for naming the body JLabel, and the email JButton
 				String dateString = setlist.getElementsByClass("setlist-date-long").get(0).text();
 				
 				//date label
@@ -120,14 +121,12 @@ public class ResultBuilder implements ActionListener{
 				footer.setVisible(true);
 				content.add(footer, c);
 				
-				//test button to see how getallcomponents works
+				//button to send a show via email
 				JButton emailShow = new JButton("Email Show");
 				emailShow.setActionCommand(dateString + "-button");
 				emailShow.addActionListener(this);
 				content.add(emailShow, c);
 			}
-			
-			
 			
 			setlistsComponent = new JScrollPane(content);
 			setlistsComponent.getVerticalScrollBar().setUnitIncrement(10);
@@ -136,7 +135,6 @@ public class ResultBuilder implements ActionListener{
 			content.revalidate();
 			frame.repaint();
 		}
-		
 		System.out.println("Succesful Build: RESULTBUILDER");
 	}
 	
@@ -181,17 +179,20 @@ public class ResultBuilder implements ActionListener{
 		}else if(e.getActionCommand().contains("-button")) {
 			Component[] components = content.getComponents();
 			
+			//Parse date out of JButton actionCommand
 			String action = e.getActionCommand();
 			int end = action.indexOf("-");
 			String date = action.substring(0, end);
 			System.out.println("Send Email: " + date);
 			
-			
+			//Search for component with the name of "date"
+			//Must cast component to JLabel to get the text, 
+			//which contains the html formatted setlist
 			for(Component c : components) {
 				if(date.equals(c.getName())) {
 					EmailSender emailSender = new EmailSender("tjefferson@ycp.edu");
 					JLabel body = (JLabel) c;
-					emailSender.sendShowEmail(date, body.getText() + "<BR><BR><BR><BR>THIS EMAIL WAS SENT BY PHISHPHRACKER");
+					emailSender.sendShowEmail(date, body.getText());
 				}
 			}	
 		}
