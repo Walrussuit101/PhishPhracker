@@ -1,6 +1,7 @@
 package screenBuilders;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
@@ -13,6 +14,8 @@ import javax.swing.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import actions.EmailSender;
 
 public class ResultBuilder implements ActionListener{
 	private JPanel content;
@@ -90,6 +93,8 @@ public class ResultBuilder implements ActionListener{
 			//Have a row for set1/2/encore/footer, handled by HTML
 			for(Element setlist : setlists) {
 				
+				String dateString = setlist.getElementsByClass("setlist-date-long").get(0).text();
+				
 				//date label
 				JLabel date = new JLabel("<html><p style='font-size: 24;'>" + setlist.getElementsByClass("setlist-date-long").get(0).text() + "</p><br></html>");				
 				date.setPreferredSize(sizeDate);
@@ -106,6 +111,7 @@ public class ResultBuilder implements ActionListener{
 				body.setText(body.getText() + "</p></html>");
 				body.setPreferredSize(sizeBody);
 				body.setVisible(true);
+				body.setName(dateString);
 				content.add(body, c);
 
 				//footer label
@@ -113,7 +119,15 @@ public class ResultBuilder implements ActionListener{
 				footer.setPreferredSize(sizeFooter);
 				footer.setVisible(true);
 				content.add(footer, c);
+				
+				//test button to see how getallcomponents works
+				JButton test = new JButton("Email Show");
+				test.setActionCommand(dateString + "-button");
+				test.addActionListener(this);
+				content.add(test, c);
 			}
+			
+			
 			
 			setlistsComponent = new JScrollPane(content);
 			setlistsComponent.getVerticalScrollBar().setUnitIncrement(10);
@@ -123,7 +137,7 @@ public class ResultBuilder implements ActionListener{
 			frame.repaint();
 		}
 		
-		System.out.println("Succesful Build RESULTBUILDER");
+		System.out.println("Succesful Build: RESULTBUILDER");
 	}
 	
 	/**Simply gets html from given url
@@ -146,8 +160,9 @@ public class ResultBuilder implements ActionListener{
 	
 	@Override
 	/**If action is "back" clear content, and rebuild main/search screen
+	 * If action is date+"-button" then send an email with the setlist
 	 */
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {		
 		if("back".equals(e.getActionCommand())) {
 			
 			System.out.println("Go Back");
@@ -162,6 +177,23 @@ public class ResultBuilder implements ActionListener{
 			
 			MainBuilder searchScreen2 = new MainBuilder(frame, content);
 			searchScreen2.build();
+			
+		}else if(e.getActionCommand().contains("-button")) {
+			Component[] components = content.getComponents();
+			
+			String action = e.getActionCommand();
+			int end = action.indexOf("-");
+			String date = action.substring(0, end);
+			System.out.println("Send Email: " + date);
+			
+			
+			for(Component c : components) {
+				if(date.equals(c.getName())) {
+					EmailSender emailSender = new EmailSender("tjefferson@ycp.edu");
+					JLabel body = (JLabel) c;
+					emailSender.sendShowEmail(date, body.getText() + "<BR><BR><BR><BR>THIS EMAIL WAS SENT BY PHISHPHRACKER");
+				}
+			}	
 		}
 	}
 }

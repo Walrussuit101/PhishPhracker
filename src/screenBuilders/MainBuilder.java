@@ -90,7 +90,7 @@ public class MainBuilder implements ActionListener{
 		content.add(submit);
 		content.revalidate();
 		frame.repaint();
-		System.out.println("Succesful Build MAINBUILDER");
+		System.out.println("Succesful Build: MAINBUILDER");
 	}
 	
 	@Override

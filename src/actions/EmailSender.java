@@ -14,7 +14,7 @@ public class EmailSender {
 	public EmailSender(String to) {		
 		this.to = to;
 		from = "walrussuit@gmail.com";
-		passwordFrom = "11041998";
+		passwordFrom = "";
 		prop = System.getProperties();
 		prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.port", "587");
@@ -32,7 +32,7 @@ public class EmailSender {
 	 */
 	public int sendShowEmail(String showDate, String setlist) {
 		
-		String subject = "PhishPhracker-"+showDate;
+		String subject = showDate;
 		
 		session = Session.getInstance(prop, 
 			new javax.mail.Authenticator() {
@@ -46,7 +46,7 @@ public class EmailSender {
 			messageShow.setFrom(new InternetAddress(from));
 			messageShow.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			messageShow.setSubject(subject);
-			messageShow.setText(setlist);
+			messageShow.setContent(setlist, "text/html");
 			Transport.send(messageShow);
 			
 			return 0;
