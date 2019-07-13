@@ -121,10 +121,10 @@ public class ResultBuilder implements ActionListener{
 				content.add(footer, c);
 				
 				//test button to see how getallcomponents works
-				JButton test = new JButton("Email Show");
-				test.setActionCommand(dateString + "-button");
-				test.addActionListener(this);
-				content.add(test, c);
+				JButton emailShow = new JButton("Email Show");
+				emailShow.setActionCommand(dateString + "-button");
+				emailShow.addActionListener(this);
+				content.add(emailShow, c);
 			}
 			
 			
