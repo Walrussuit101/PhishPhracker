@@ -1,6 +1,7 @@
 package screenBuilders;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -69,10 +70,11 @@ public class MainBuilder implements ActionListener{
 	 * User can search setlist by date
 	 */
 	public void build(){
-		
+				
 		//build JComboBoxes for year/month/day selection
 		yearSelect.setBackground(Color.white);
 		yearSelect.setBorder(new EmptyBorder(0,0,0,10));
+		yearSelect.setVisible(true);
 		
 		monthSelect.setBackground(Color.white);
 		monthSelect.setBorder(new EmptyBorder(0,10,0,10));
@@ -89,8 +91,13 @@ public class MainBuilder implements ActionListener{
 		content.add(daySelect);
 		content.add(submit);
 		content.revalidate();
+		content.repaint();
+		frame.revalidate();
 		frame.repaint();
 		System.out.println("Succesful Build: MAINBUILDER");
+		for (Component c : content.getComponents()) {
+			System.out.println(c.getName());
+		}
 	}
 	
 	@Override

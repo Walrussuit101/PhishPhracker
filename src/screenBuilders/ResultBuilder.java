@@ -63,7 +63,7 @@ public class ResultBuilder implements ActionListener{
 	/**Builds resultScreen in content JPanel
 	 */
 	public void build() {
-		
+				
 		//If setlist not found, return to search screen
 		if(!html.title().contains("Setlist")) {
 			JOptionPane.showMessageDialog(null, "No setlists found :(");
@@ -133,6 +133,7 @@ public class ResultBuilder implements ActionListener{
 			setlistsComponent.getVerticalScrollBar().setUnitIncrement(10);
 			frame.getContentPane().add(setlistsComponent, BorderLayout.CENTER);
 			frame.getContentPane().revalidate();
+			frame.getContentPane().repaint();
 			content.revalidate();
 			frame.repaint();
 		}
@@ -166,16 +167,28 @@ public class ResultBuilder implements ActionListener{
 			
 			System.out.println("Go Back");
 			
-			content.removeAll();
-			content.revalidate();
+			setlistsComponent.setVisible(false);
 			frame.getContentPane().remove(setlistsComponent);
 			frame.getContentPane().revalidate();
-			frame.getContentPane().repaint();
+			
+			content.removeAll();
+			content.revalidate();
+			content.repaint();
 			frame.revalidate();
 			frame.repaint();
 			
-			MainBuilder searchScreen2 = new MainBuilder(frame, content);
-			searchScreen2.build();
+			frame.getContentPane().repaint();
+			
+			MainBuilder searchScreen = new MainBuilder(frame, content);
+			searchScreen.build();
+			
+//			ArrayList<String> selections = new ArrayList<String>();
+//			selections.add("1999");
+//			selections.add("12");
+//			selections.add("31");
+//			ResultBuilder resultScreen = new ResultBuilder(frame, content, selections);
+//			resultScreen.build();
+			
 			
 		}else if(e.getActionCommand().contains("-button")) {
 			Component[] components = content.getComponents();
