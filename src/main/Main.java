@@ -9,6 +9,7 @@ import java.net.URL;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import screenBuilders.LogInBuilder;
 import screenBuilders.MainBuilder;
 
 
@@ -69,7 +70,12 @@ public class Main {
         	System.out.println(e);
         }   
         
-        MainBuilder searchScreen = new MainBuilder(frame, content);
-        searchScreen.build();
+        
+        //JOptionPane.showMessageDialog(content, System.getProperty("user.dir"));
+        
+        LogInBuilder loginScreen = new LogInBuilder(frame,content);
+        loginScreen.build();
+//        MainBuilder searchScreen = new MainBuilder(frame, content);
+//        searchScreen.build();
     }
 }
